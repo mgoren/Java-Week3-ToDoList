@@ -1,57 +1,58 @@
 package models;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
+import java.util.Objects;
 
 public class Task {
+  private int id;
+  private String description;
+  private boolean completed;
+  private LocalDateTime createdAt;
 
-    private String description;
-    private static ArrayList<Task> instances = new ArrayList<>();
-    private boolean completed;
-    private LocalDateTime createdAt;
-    private int id;
+  public Task (String description) {
+    this.description = description;
+    this.completed = false;
+    this.createdAt = LocalDateTime.now();
+  }
 
-    public Task(String description){
-        this.description = description;
-        this.completed = false;
-        this.createdAt = LocalDateTime.now();
-        instances.add(this);
-        this.id = instances.size();
-    }
+  public String getDescription() {
+    return description;
+  }
 
-    public String getDescription() {
-        return description;
-    }
+  public void setDescription(String description) {
+    this.description = description;
+  }
 
-    public static ArrayList<Task> getAll(){
-        return instances;
-    }
+  public boolean getCompleted() {
+    return this.completed;
+  }
 
-    public static void clearAllTasks(){
-        instances.clear();
-    }
+  public void setCompleted() {
+    this.completed = true;
+  }
 
-    public boolean getCompleted(){
-        return this.completed;
-    }
+  public LocalDateTime getCreatedAt() {
+    return createdAt;
+  }
 
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
+  public int getId() {
+    return this.id;
+  }
 
-    public int getId() {
-        return id;
-    }
+  public void setId(int id) {
+    this.id = id;
+  }
 
-    public static Task findById(int id){
-        return instances.get(id-1); //why minus 1? See if you can figure it out.
-    }
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    Task task = (Task) o;
+    return completed == task.completed && id == task.id && description.equals(task.description);
+  }
 
-    public void update(String content) {
-        this.description = content;
-    }
-
-    public void deleteTask(){
-        instances.remove(id-1); //same reason
-    }
+  @Override
+  public int hashCode() {
+    return Objects.hash(description, completed, id);
+  }
 }
